@@ -1,0 +1,23 @@
+[
+    { "productId": "P001", "name": "Glow Serum", "category": "Skincare", "price": 85000, "stock": 20 },
+    { "productId": "P002", "name": "Hydrating Toner", "category": "Skincare", "price": 65000, "stock": 35 },
+    { "productId": "P003", "name": "Matte Lipstick", "category": "Cosmetics", "price": 45000, "stock": 50 },
+    { "productId": "P004", "name": "Baby Lotion", "category": "Baby Care", "price": 40000, "stock": 25 },
+    { "productId": "P005", "name": "Men's Facial Wash", "category": "Men's Care", "price": 70000, "stock": 30 },
+    { "productId": "P006", "name": "Brightening Day Cream", "category": "Skincare", "price": 92000, "stock": 15 },
+    { "productId": "P007", "name": "Sunscreen SPF 50", "category": "Skincare", "price": 88000, "stock": 28 },
+    { "productId": "P008", "name": "Hair Serum", "category": "Hair Care", "price": 76000, "stock": 40 },
+    { "productId": "P009", "name": "Compact Powder", "category": "Cosmetics", "price": 58000, "stock": 18 },
+    { "productId": "P010", "name": "Baby Shampoo", "category": "Baby Care", "price": 42000, "stock": 22 },
+    { "productId": "P011", "name": "Aftershave Balm", "category": "Men's Care", "price": 60000, "stock": 12 },
+    { "productId": "P012", "name": "Hair Conditioner", "category": "Hair Care", "price": 75000, "stock": 26 },
+    { "productId": "P013", "name": "Moisturizing Gel", "category": "Skincare", "price": 67000, "stock": 34 },
+    { "productId": "P014", "name": "Lip Balm", "category": "Cosmetics", "price": 30000, "stock": 45 },
+    { "productId": "P015", "name": "Body Wash", "category": "Body Care", "price": 55000, "stock": 38 },
+    { "productId": "P016", "name": "Facial Scrub", "category": "Skincare", "price": 62000, "stock": 16 },
+    { "productId": "P017", "name": "BB Cream", "category": "Cosmetics", "price": 50000, "stock": 20 },
+    { "productId": "P018", "name": "Deodorant Roll-On", "category": "Body Care", "price": 46000, "stock": 30 },
+    { "productId": "P019", "name": "Hair Mask", "category": "Hair Care", "price": 82000, "stock": 14 },
+    { "productId": "P020", "name": "Baby Oil", "category": "Baby Care", "price": 39000, "stock": 19 }
+  ]
+  

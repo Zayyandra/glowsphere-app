@@ -1,0 +1,24 @@
+/* admin.css */
+
+.admin-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  table th {
+    text-align: left;
+    background-color: #f7fafc;
+  }
+  
+  table td, table th {
+    transition: background-color 0.3s ease;
+  }
+  
+  input:focus, select:focus {
+    outline: none;
+    border-color: #c084fc;
+    box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.4);
+  }
+  

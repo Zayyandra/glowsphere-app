@@ -1,0 +1,51 @@
+[
+    {
+      "id": "T001",
+      "name": "Alya Rahma",
+      "product": "Glow Serum Bright",
+      "message": "Kulitku jadi lebih cerah dan lembab. Produk ini luar biasa!"
+    },
+    {
+      "id": "T002",
+      "name": "Dewi Putri",
+      "product": "Hair Tonic Fresh",
+      "message": "Rambut rontokku berkurang setelah rutin pakai ini."
+    },
+    {
+      "id": "T003",
+      "name": "Nadia Kusuma",
+      "product": "Body Lotion Soft Skin",
+      "message": "Lotionnya wangi banget dan cepat meresap di kulit."
+    },
+    {
+      "id": "T004",
+      "name": "Santi Wulandari",
+      "product": "Brightening Night Cream",
+      "message": "Setelah 2 minggu, noda hitam mulai memudar!"
+    },
+    {
+      "id": "T005",
+      "name": "Yuni Astari",
+      "product": "Lip Cream Matte",
+      "message": "Warnanya cocok banget di bibir dan tahan lama."
+    },
+    {
+      "id": "T006",
+      "name": "Larasati Dinda",
+      "product": "Baby Shampoo Mild",
+      "message": "Anakku suka banget, matanya nggak perih saat keramas."
+    },
+    {
+      "id": "T007",
+      "name": "Dian Ayu",
+      "product": "Men's Facial Wash",
+      "message": "Wajah terasa segar dan nggak berminyak seharian."
+    },
+    {
+      "id": "T008",
+      "name": "Rina Salsabila",
+      "product": "Glow Face Mist",
+      "message": "Bikin muka keliatan segar setiap saat, love it!"
+    }
+  ]
+  

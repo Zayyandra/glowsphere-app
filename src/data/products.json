@@ -1,0 +1,423 @@
+[
+    {
+      "id": 1,
+      "title": "Glowsphere Brightening Facial",
+      "category": "Facial Treatment",
+      "price": 120000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Niacinamide",
+        "supporting": "Vitamin C"
+      },
+      "packaging": {
+        "type": "Tube",
+        "size": "100ml"
+      },
+      "dimensions": {
+        "height": 15,
+        "width": 5,
+        "depth": 3
+      }
+    },
+    {
+      "id": 2,
+      "title": "Glowsphere Hydrating Mask",
+      "category": "Mask",
+      "price": 85000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Hyaluronic Acid",
+        "supporting": "Aloe Vera"
+      },
+      "packaging": {
+        "type": "Jar",
+        "size": "50ml"
+      },
+      "dimensions": {
+        "height": 7,
+        "width": 6,
+        "depth": 6
+      }
+    },
+    {
+      "id": 3,
+      "title": "Glowsphere Daily Sunscreen",
+      "category": "Sun Protection",
+      "price": 99000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Zinc Oxide",
+        "supporting": "Vitamin E"
+      },
+      "packaging": {
+        "type": "Pump Bottle",
+        "size": "60ml"
+      },
+      "dimensions": {
+        "height": 12,
+        "width": 4,
+        "depth": 4
+      }
+    },
+    {
+      "id": 4,
+      "title": "Glowsphere Acne Control Serum",
+      "category": "Serum",
+      "price": 130000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Salicylic Acid",
+        "supporting": "Tea Tree Oil"
+      },
+      "packaging": {
+        "type": "Dropper",
+        "size": "30ml"
+      },
+      "dimensions": {
+        "height": 10,
+        "width": 3,
+        "depth": 3
+      }
+    },
+    {
+      "id": 5,
+      "title": "Glowsphere Nourishing Night Cream",
+      "category": "Moisturizer",
+      "price": 110000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Peptides",
+        "supporting": "Ceramides"
+      },
+      "packaging": {
+        "type": "Jar",
+        "size": "50ml"
+      },
+      "dimensions": {
+        "height": 6,
+        "width": 5,
+        "depth": 5
+      }
+    },
+    {
+      "id": 6,
+      "title": "Glowsphere Eye Repair Gel",
+      "category": "Eye Care",
+      "price": 95000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Caffeine",
+        "supporting": "Peptides"
+      },
+      "packaging": {
+        "type": "Tube",
+        "size": "20ml"
+      },
+      "dimensions": {
+        "height": 8,
+        "width": 2,
+        "depth": 2
+      }
+    },
+    {
+      "id": 7,
+      "title": "Glowsphere Pore Refining Toner",
+      "category": "Toner",
+      "price": 87000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Witch Hazel",
+        "supporting": "Niacinamide"
+      },
+      "packaging": {
+        "type": "Bottle",
+        "size": "100ml"
+      },
+      "dimensions": {
+        "height": 13,
+        "width": 4,
+        "depth": 4
+      }
+    },
+    {
+      "id": 8,
+      "title": "Glowsphere Gentle Cleanser",
+      "category": "Cleanser",
+      "price": 68000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Glycerin",
+        "supporting": "Green Tea"
+      },
+      "packaging": {
+        "type": "Bottle",
+        "size": "100ml"
+      },
+      "dimensions": {
+        "height": 14,
+        "width": 4,
+        "depth": 4
+      }
+    },
+    {
+      "id": 9,
+      "title": "Glowsphere Spot Treatment",
+      "category": "Acne Treatment",
+      "price": 77000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Benzoyl Peroxide",
+        "supporting": "Aloe Vera"
+      },
+      "packaging": {
+        "type": "Tube",
+        "size": "15ml"
+      },
+      "dimensions": {
+        "height": 7,
+        "width": 2,
+        "depth": 2
+      }
+    },
+    {
+      "id": 10,
+      "title": "Glowsphere Lip Therapy Balm",
+      "category": "Lip Care",
+      "price": 39000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Shea Butter",
+        "supporting": "Jojoba Oil"
+      },
+      "packaging": {
+        "type": "Stick",
+        "size": "5g"
+      },
+      "dimensions": {
+        "height": 5,
+        "width": 2,
+        "depth": 2
+      }
+    },
+    {
+      "id": 11,
+      "title": "Glowsphere Radiance Booster Serum",
+      "category": "Serum",
+      "price": 145000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Vitamin C",
+        "supporting": "Ferulic Acid"
+      },
+      "packaging": {
+        "type": "Dropper",
+        "size": "30ml"
+      },
+      "dimensions": {
+        "height": 10,
+        "width": 3,
+        "depth": 3
+      }
+    },
+    {
+      "id": 12,
+      "title": "Glowsphere Revitalizing Toner",
+      "category": "Toner",
+      "price": 78000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Rose Water",
+        "supporting": "Chamomile"
+      },
+      "packaging": {
+        "type": "Bottle",
+        "size": "120ml"
+      },
+      "dimensions": {
+        "height": 13,
+        "width": 4,
+        "depth": 4
+      }
+    },
+    {
+      "id": 13,
+      "title": "Glowsphere Brightening Scrub",
+      "category": "Exfoliator",
+      "price": 95000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Rice Powder",
+        "supporting": "Licorice"
+      },
+      "packaging": {
+        "type": "Tube",
+        "size": "75ml"
+      },
+      "dimensions": {
+        "height": 12,
+        "width": 5,
+        "depth": 4
+      }
+    },
+    {
+      "id": 14,
+      "title": "Glowsphere Clarifying Clay Mask",
+      "category": "Mask",
+      "price": 89000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Kaolin Clay",
+        "supporting": "Green Tea"
+      },
+      "packaging": {
+        "type": "Jar",
+        "size": "60ml"
+      },
+      "dimensions": {
+        "height": 6,
+        "width": 6,
+        "depth": 6
+      }
+    },
+    {
+      "id": 15,
+      "title": "Glowsphere Soothing Mist",
+      "category": "Mist",
+      "price": 72000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Cucumber Extract",
+        "supporting": "Panthenol"
+      },
+      "packaging": {
+        "type": "Spray Bottle",
+        "size": "100ml"
+      },
+      "dimensions": {
+        "height": 14,
+        "width": 4,
+        "depth": 4
+      }
+    },
+    {
+      "id": 16,
+      "title": "Glowsphere Barrier Repair Cream",
+      "category": "Moisturizer",
+      "price": 112000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Ceramides",
+        "supporting": "Squalane"
+      },
+      "packaging": {
+        "type": "Jar",
+        "size": "50ml"
+      },
+      "dimensions": {
+        "height": 6,
+        "width": 5,
+        "depth": 5
+      }
+    },
+    {
+      "id": 17,
+      "title": "Glowsphere Glow Drops",
+      "category": "Booster",
+      "price": 123000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Alpha Arbutin",
+        "supporting": "Licorice Root"
+      },
+      "packaging": {
+        "type": "Dropper",
+        "size": "20ml"
+      },
+      "dimensions": {
+        "height": 9,
+        "width": 3,
+        "depth": 3
+      }
+    },
+    {
+      "id": 18,
+      "title": "Glowsphere Skin Calming Lotion",
+      "category": "Lotion",
+      "price": 87000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Centella Asiatica",
+        "supporting": "Allantoin"
+      },
+      "packaging": {
+        "type": "Bottle",
+        "size": "100ml"
+      },
+      "dimensions": {
+        "height": 13,
+        "width": 4,
+        "depth": 4
+      }
+    },
+    {
+      "id": 19,
+      "title": "Glowsphere Gentle Exfoliating Pads",
+      "category": "Exfoliator",
+      "price": 97000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Lactic Acid",
+        "supporting": "Green Tea"
+      },
+      "packaging": {
+        "type": "Jar",
+        "size": "30 pads"
+      },
+      "dimensions": {
+        "height": 5,
+        "width": 6,
+        "depth": 6
+      }
+    },
+    {
+      "id": 20,
+      "title": "Glowsphere Brightening Eye Cream",
+      "category": "Eye Care",
+      "price": 98000,
+      "brand": "Glowsphere",
+      "image": "/img/Anua.jpeg",
+      "ingredients": {
+        "main": "Niacinamide",
+        "supporting": "Caffeine"
+      },
+      "packaging": {
+        "type": "Tube",
+        "size": "15ml"
+      },
+      "dimensions": {
+        "height": 8,
+        "width": 2,
+        "depth": 2
+      }
+    }
+  ]
+  

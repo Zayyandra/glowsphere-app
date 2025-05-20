@@ -1,0 +1,13 @@
+[
+    { "orderId": "O001", "customerName": "Rina Putri", "product": "Glow Serum", "quantity": 2, "total": 170000, "status": "Completed" },
+    { "orderId": "O002", "customerName": "Dewi Lestari", "product": "Hydrating Toner", "quantity": 1, "total": 65000, "status": "Pending" },
+    { "orderId": "O003", "customerName": "Andi Saputra", "product": "Men's Facial Wash", "quantity": 3, "total": 210000, "status": "Completed" },
+    { "orderId": "O004", "customerName": "Budi Hartono", "product": "Aftershave Balm", "quantity": 1, "total": 60000, "status": "Canceled" },
+    { "orderId": "O005", "customerName": "Sari Dewanti", "product": "Matte Lipstick", "quantity": 2, "total": 90000, "status": "Completed" },
+    { "orderId": "O006", "customerName": "Tono Wijaya", "product": "Baby Lotion", "quantity": 1, "total": 40000, "status": "Pending" },
+    { "orderId": "O007", "customerName": "Maya Sari", "product": "Brightening Day Cream", "quantity": 2, "total": 184000, "status": "Completed" },
+    { "orderId": "O008", "customerName": "Dimas Prakoso", "product": "Hair Serum", "quantity": 1, "total": 76000, "status": "Pending" },
+    { "orderId": "O009", "customerName": "Rudi Santoso", "product": "Lip Balm", "quantity": 3, "total": 90000, "status": "Completed" },
+    { "orderId": "O010", "customerName": "Yuni Arti", "product": "Baby Shampoo", "quantity": 1, "total": 42000, "status": "Completed" }
+  ]
+  
