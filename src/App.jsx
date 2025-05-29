@@ -35,12 +35,15 @@ const FAQ = React.lazy(() => import("./pages/FAQ"));
 const AddFAQ = React.lazy(() => import("./pages/AddFAQ"));
 const Contactus = React.lazy(() => import("./pages/Contactus"));
 const EditContactUs = React.lazy(() => import("./pages/EditContactUs"));
-
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
 const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
 const Login = React.lazy(() => import("./pages/auth/Login"));
 const Register = React.lazy(() => import("./pages/auth/Register"));
 const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
+const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
+const OrderDetail = React.lazy(() => import("./pages/OrderDetail"))
+const TestimoniDetail = React.lazy(() => import("./pages/TestimoniDetail"))
+const FaqDetail = React.lazy(() => import("./pages/FaqDetail"))
 
 function App() {
   return (
@@ -61,6 +64,12 @@ function App() {
           <Route path="/error/403" element={<ErrorPage403 />} />
           <Route path="/contactus" element={<Contactus />} />
           <Route path="/contactus/edit" element={< EditContactUs/>} />
+          <Route path="/product/:id" element={<ProductDetail/>} />
+          <Route path="/order/:id" element={<OrderDetail/>} /> 
+          <Route path="/testimoni/:id" element={<TestimoniDetail/>} />
+          <Route path="/faq/:id" element={<FaqDetail/>} /> 
+
+
 
         </Route>
         <Route path="/*" element={<ErrorPage400 />} />

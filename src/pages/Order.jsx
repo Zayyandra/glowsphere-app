@@ -1,17 +1,17 @@
-import React from 'react';
-import order from '../data/order.json';
+import React from "react";
+import order from "../data/order.json";
 import PageHeader from "../components/PageHeader";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Order() {
   const statusColor = {
-    Completed: 'bg-green-100 text-green-600',
-    Pending: 'bg-yellow-100 text-yellow-600',
-    Canceled: 'bg-red-100 text-red-600',
+    Completed: "bg-green-100 text-green-600",
+    Pending: "bg-yellow-100 text-yellow-600",
+    Canceled: "bg-red-100 text-red-600",
   };
 
   const totalOrders = order.length;
-  const uniqueCustomers = [...new Set(order.map(o => o.customerName))].length;
+  const uniqueCustomers = [...new Set(order.map((o) => o.customerName))].length;
 
   return (
     <div className="p-6">
@@ -24,8 +24,12 @@ export default function Order() {
           <p className="text-4xl font-bold text-blue-600 mt-1">{totalOrders}</p>
         </div>
         <div className="bg-white rounded-xl shadow p-5 border-l-4 border-emerald-500">
-          <h2 className="text-lg font-semibold text-gray-700">Pelanggan Unik</h2>
-          <p className="text-4xl font-bold text-emerald-600 mt-1">{uniqueCustomers}</p>
+          <h2 className="text-lg font-semibold text-gray-700">
+            Pelanggan Unik
+          </h2>
+          <p className="text-4xl font-bold text-emerald-600 mt-1">
+            {uniqueCustomers}
+          </p>
         </div>
       </div>
 
@@ -54,16 +58,32 @@ export default function Order() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
               {order.map((order, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 transition duration-200">
-                  <td className="px-4 py-2 text-gray-700">{order.orderId}</td>
-                  <td className="px-4 py-2 text-gray-800">{order.customerName}</td>
+                <tr
+                  key={idx}
+                  className="hover:bg-gray-50 transition duration-200"
+                >
+                  <td className="px-4 py-2 font-medium text-gray-700">
+                    <Link
+                      to={`/order/${order.orderId}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {order.orderId}
+                    </Link>
+                  </td>{" "}
+                  <td className="px-4 py-2 text-gray-800">
+                    {order.customerName}
+                  </td>
                   <td className="px-4 py-2">{order.product}</td>
                   <td className="px-4 py-2">{order.quantity}</td>
                   <td className="px-4 py-2 text-black font-medium">
-                    Rp {order.total.toLocaleString('id-ID')}
+                    Rp {order.total.toLocaleString("id-ID")}
                   </td>
                   <td className="px-4 py-2">
-                    <span className={`px-2 py-1 text-xs font-semibold rounded ${statusColor[order.status] || 'bg-gray-100 text-gray-600'}`}>
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded ${
+                        statusColor[order.status] || "bg-gray-100 text-gray-600"
+                      }`}
+                    >
                       {order.status}
                     </span>
                   </td>

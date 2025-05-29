@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import products from '../data/product.json';
+import React, { useState } from "react";
+import products from "../data/product.json";
 import PageHeader from "../components/PageHeader";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Products() {
   const [page, setPage] = useState(1);
@@ -9,7 +9,10 @@ export default function Products() {
 
   const totalPages = Math.ceil(products.length / productsPerPage);
   const startIdx = (page - 1) * productsPerPage;
-  const paginatedProducts = products.slice(startIdx, startIdx + productsPerPage);
+  const paginatedProducts = products.slice(
+    startIdx,
+    startIdx + productsPerPage
+  );
 
   const handlePrevious = () => {
     if (page > 1) setPage(page - 1);
@@ -35,12 +38,14 @@ export default function Products() {
       <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="bg-white rounded-xl shadow p-5 border-l-4 border-green-500">
           <h2 className="text-lg font-semibold text-gray-700">Total Produk</h2>
-          <p className="text-4xl font-bold text-green-600 mt-1">{products.length}</p>
+          <p className="text-4xl font-bold text-green-600 mt-1">
+            {products.length}
+          </p>
         </div>
         <div className="bg-white rounded-xl shadow p-5 border-l-4 border-purple-500">
           <h2 className="text-lg font-semibold text-gray-700">Kategori Unik</h2>
           <p className="text-4xl font-bold text-purple-600 mt-1">
-            {[...new Set(products.map(p => p.category))].length}
+            {[...new Set(products.map((p) => p.category))].length}
           </p>
         </div>
       </div>
@@ -72,18 +77,37 @@ export default function Products() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
               {paginatedProducts.map((product, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 transition duration-200">
-                  <td className="px-4 py-2 font-medium text-gray-700">{product.productId}</td>
-                  <td className="px-4 py-2 text-gray-800">{product.name}</td>
+                <tr
+                  key={idx}
+                  className="hover:bg-gray-50 transition duration-200"
+                >
+                  <td className="px-4 py-2 font-medium text-gray-700">
+                    {product.productId}
+                  </td>
+                  <td className="px-4 py-2 text-gray-800">
+                    <Link
+                      to={`/product/${product.productId}`}
+                      className="text-emerald-600 hover:underline"
+                    >
+                      {product.name}
+                    </Link>
+                  </td>
                   <td className="px-4 py-2">
-                    <span className={`px-2 py-1 text-xs font-semibold rounded ${categoryColors[product.category] || categoryColors.default}`}>
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded ${
+                        categoryColors[product.category] ||
+                        categoryColors.default
+                      }`}
+                    >
                       {product.category}
                     </span>
                   </td>
                   <td className="px-4 py-2 text-gray-700">
                     Rp {product.price.toLocaleString("id-ID")}
                   </td>
-                  <td className="px-4 py-2 font-semibold text-green-600">{product.stock}</td>
+                  <td className="px-4 py-2 font-semibold text-green-600">
+                    {product.stock}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -99,7 +123,9 @@ export default function Products() {
           >
             ⬅️ Sebelumnya
           </button>
-          <span>Halaman {page} dari {totalPages}</span>
+          <span>
+            Halaman {page} dari {totalPages}
+          </span>
           <button
             onClick={handleNext}
             disabled={page === totalPages}

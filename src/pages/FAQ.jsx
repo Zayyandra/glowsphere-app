@@ -1,5 +1,5 @@
 import React from "react";
-import faq from "../data/faq.json"; // Pastikan file ini valid
+import faq from "../data/faq.json";
 import PageHeader from "../components/PageHeader";
 import { Link } from "react-router-dom";
 
@@ -20,11 +20,22 @@ export default function FAQ() {
       </div>
 
       <div className="space-y-4">
-        {faq.map((faq, idx) => (
-          <div key={idx} className="border p-4 rounded-md shadow-sm bg-white">
-            <h3 className="font-semibold text-gray-800 mb-1">{faq.question}</h3>
-            <p className="text-gray-700 text-sm">{faq.answer}</p>
-          </div>
+        {faq.map((faqItem, idx) => (
+          <Link
+            key={idx}
+            to={`/faq/${faqItem.id}`}
+            className="block border p-4 rounded-md shadow-sm bg-white hover:bg-gray-50 transition"
+          >
+            <div className="flex justify-between items-start">
+              <h3 className="font-semibold text-gray-800 mb-1">
+                {faqItem.question}
+              </h3>
+              <span className="text-xs text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded">
+                {faqItem.category}
+              </span>
+            </div>
+            <p className="text-gray-700 text-sm">{faqItem.answer}</p>
+          </Link>
         ))}
       </div>
     </div>

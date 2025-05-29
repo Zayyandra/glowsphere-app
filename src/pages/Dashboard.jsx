@@ -1,86 +1,113 @@
-import { FaDownload, FaArrowLeft, FaPlus, FaArrowUp, FaDollarSign, FaShoppingCart, FaBox, FaUsers } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import {
+  FaDownload,
+  FaArrowLeft,
+  FaPlus,
+  FaArrowUp,
+  FaDollarSign,
+  FaShoppingCart,
+  FaBox,
+  FaUsers,
+} from "react-icons/fa";
 import PageHeader from "../components/PageHeader";
+import axios from "axios";
 
 export default function Dashboard() {
+  const [quote, setQuote] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`https://api.adviceslip.com/advice`)
+      .then((res) => setQuote(res.data.slip.advice))
+      .catch(() => setError("Gagal mengambil kutipan motivasi."));
+  }, []);
+
   const statsCards = [
     {
       title: "Total Sales",
       value: "$1k",
       change: "+5% from yesterday",
-      icon: <FaDollarSign className="text-white" />,
-      bgColor: "bg-red-100",
-      iconBg: "bg-red-400",
+      icon: <FaDollarSign className="text-white text-lg" />,
+      bgColor: "bg-red-50",
+      iconBg: "bg-red-500",
     },
     {
-      title: "Total Order",
+      title: "Total Orders",
       value: "300",
       change: "+10% from yesterday",
-      icon: <FaShoppingCart className="text-white" />,
-      bgColor: "bg-orange-100",
-      iconBg: "bg-orange-400",
+      icon: <FaShoppingCart className="text-white text-lg" />,
+      bgColor: "bg-orange-50",
+      iconBg: "bg-orange-500",
     },
     {
       title: "Product Sold",
       value: "5",
       change: "+20% from yesterday",
-      icon: <FaBox className="text-white" />,
-      bgColor: "bg-green-100",
-      iconBg: "bg-green-400",
+      icon: <FaBox className="text-white text-lg" />,
+      bgColor: "bg-green-50",
+      iconBg: "bg-green-500",
     },
     {
       title: "New Customers",
       value: "8",
       change: "+5% from yesterday",
-      icon: <FaUsers className="text-white" />,
-      bgColor: "bg-purple-100",
-      iconBg: "bg-purple-400",
+      icon: <FaUsers className="text-white text-lg" />,
+      bgColor: "bg-purple-50",
+      iconBg: "bg-purple-500",
     },
   ];
 
   return (
-    <div className="p-4">
-      <PageHeader
-        title="Today's Sales"
-        subtitle="Sales Summary"
-      />
+    <div className="p-6 space-y-6">
+      <PageHeader title="Today's Sales" subtitle="Sales Summary" />
 
-      {/* Tombol-tombol di bawah judul */}
-      <div className="flex justify-end space-x-2 mt-4 mb-6">
-        <button className="flex items-center space-x-1 bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600 text-sm">
+      {/* Quote Section */}
+      <div className="bg-gradient-to-r from-indigo-100 to-blue-100 border border-blue-300 rounded-xl p-5 shadow">
+        <h2 className="text-lg font-semibold text-indigo-700 mb-1">💡 Inspirational Quote</h2>
+        <p className="text-gray-700 italic">
+          {error ? <span className="text-red-500">{error}</span> : `“${quote || "Memuat kutipan motivasi..." }”`}
+        </p>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-wrap justify-end gap-2">
+        <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600 transition">
           <FaPlus />
-          <span>Add Button</span>
+          <span>Add</span>
         </button>
-        <button className="flex items-center space-x-1 bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 text-sm">
+        <button className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition">
           <FaDownload />
           <span>Export</span>
         </button>
-        <button className="flex items-center space-x-1 bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 text-sm">
+        <button className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 transition">
           <FaArrowLeft />
           <span>Kembali</span>
         </button>
       </div>
 
-      {/* Card Summary */}
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {statsCards.map((card, index) => (
-            <div key={index} className={`${card.bgColor} rounded-lg p-4 shadow-inner`}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-2xl font-bold">{card.value}</h3>
-                  <p className="text-sm font-medium text-gray-700">{card.title}</p>
-                  <div className="flex items-center mt-2 text-xs text-green-600">
-                    <FaArrowUp className="mr-1 text-xs" />
-                    <span>{card.change}</span>
-                  </div>
-                </div>
-                <div className={`${card.iconBg} p-2 rounded-full`}>
-                  {card.icon}
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {statsCards.map((card, index) => (
+          <div
+            key={index}
+            className={`relative overflow-hidden rounded-xl p-5 shadow-md transition hover:scale-[1.02] ${card.bgColor}`}
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-2xl font-bold">{card.value}</h3>
+                <p className="text-sm text-gray-700 font-medium">{card.title}</p>
+                <div className="flex items-center mt-2 text-green-600 text-xs font-semibold bg-green-100 rounded-full px-2 py-1 w-fit">
+                  <FaArrowUp className="mr-1 text-xs" />
+                  {card.change}
                 </div>
               </div>
+              <div className={`${card.iconBg} p-3 rounded-full shadow-md`}>
+                {card.icon}
+              </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
