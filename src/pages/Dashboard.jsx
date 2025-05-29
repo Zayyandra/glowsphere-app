@@ -15,13 +15,21 @@ import axios from "axios";
 export default function Dashboard() {
   const [quote, setQuote] = useState("");
   const [error, setError] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
-    axios
-      .get(`https://api.adviceslip.com/advice`)
-      .then((res) => setQuote(res.data.slip.advice))
-      .catch(() => setError("Gagal mengambil kutipan motivasi."));
-  }, []);
+    const timeout = setTimeout(() => {
+      axios
+        .get(`https://api.adviceslip.com/advice`)
+        .then((res) => {
+          setQuote(res.data.slip.advice);
+          setError(null);
+        })
+        .catch(() => setError("Gagal mengambil kutipan motivasi."));
+    }, 100); // debounce 100ms
+
+    return () => clearTimeout(timeout); // cleanup jika trigger berubah
+  }, [refreshTrigger]);
 
   const statsCards = [
     {
@@ -65,9 +73,19 @@ export default function Dashboard() {
       {/* Quote Section */}
       <div className="bg-gradient-to-r from-indigo-100 to-blue-100 border border-blue-300 rounded-xl p-5 shadow">
         <h2 className="text-lg font-semibold text-indigo-700 mb-1">💡 Inspirational Quote</h2>
-        <p className="text-gray-700 italic">
-          {error ? <span className="text-red-500">{error}</span> : `“${quote || "Memuat kutipan motivasi..." }”`}
+        <p className="text-gray-700 italic mb-2">
+          {error ? (
+            <span className="text-red-500">{error}</span>
+          ) : (
+            `“${quote || "Memuat kutipan motivasi..." }”`
+          )}
         </p>
+        <button
+          onClick={() => setRefreshTrigger((prev) => prev + 1)}
+          className="bg-indigo-500 text-white px-3 py-1 rounded-md hover:bg-indigo-600 transition text-sm"
+        >
+          🔄 Refresh Quote
+        </button>
       </div>
 
       {/* Action Buttons */}
