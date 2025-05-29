@@ -4,13 +4,20 @@ import Header from "../components/Header";
 
 export default function MainLayout() {
   return (
-    <div className="bg-gray-100 min-h-screen flex">
-      <div className="flex flex-row flex-1">
-        <Sidebar />
-        <div className="flex-1 p-4">
-          <Header />
+    <div className="flex bg-gray-200 min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
 
-          <Outlet />
+      {/* Konten utama */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <Header />
+
+        {/* Konten */}
+        <div className="flex-1 px-6 py-4">
+          <div className="card-box p-6 h-full">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
