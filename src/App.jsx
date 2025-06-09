@@ -44,6 +44,10 @@ const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
 const OrderDetail = React.lazy(() => import("./pages/OrderDetail"))
 const TestimoniDetail = React.lazy(() => import("./pages/TestimoniDetail"))
 const FaqDetail = React.lazy(() => import("./pages/FaqDetail"))
+const Article = React.lazy(() => import("./pages/Article"))
+const Team = React.lazy(() => import("./pages/Team"))
+const User = React.lazy(() => import("./pages/User"))
+const Job = React.lazy(() => import("./pages/Job"))
 
 function App() {
   return (
@@ -59,6 +63,10 @@ function App() {
           <Route path="/order/add" element={<AddOrder />} />
           <Route path="/testimoni" element={<Testimoni />} />
           <Route path="/testimoni/add" element={<AddTestimoni />} />
+          <Route path="/article" element={<Article />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/job" element={<Job />} />
           <Route path="/error/400" element={<ErrorPage400 />} />
           <Route path="/error/401" element={<ErrorPage401 />} />
           <Route path="/error/403" element={<ErrorPage403 />} />

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "u01",
+    "name": "Aulia Rahma",
+    "email": "aulia@glowsphere.id",
+    "role": "Admin"
+  },
+  {
+    "id": "u02",
+    "name": "Bayu Pradana",
+    "email": "bayu@glowsphere.id",
+    "role": "Editor"
+  }
+]

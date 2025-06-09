@@ -1,0 +1,16 @@
+[
+  {
+    "id": "j01",
+    "title": "Frontend Developer",
+    "company": "Glowsphere",
+    "location": "Pekanbaru",
+    "deadline": "2025-07-15"
+  },
+  {
+    "id": "j02",
+    "title": "Content Writer",
+    "company": "Glowsphere",
+    "location": "Jakarta",
+    "deadline": "2025-07-20"
+  }
+]

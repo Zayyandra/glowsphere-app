@@ -1,0 +1,15 @@
+[
+  {
+    "id": "t01",
+    "name": "Dina Kurnia",
+    "position": "UI Designer",
+    "image": "https://images.unsplash.com/photo-1598515213709-6fa1ff367324"
+  },
+  {
+    "id": "t02",
+    "name": "Riko Santoso",
+    "position": "Backend Developer",
+    "image": "https://images.unsplash.com/photo-1598515213709-6fa1ff367324"
+
+  }
+]
