@@ -134,7 +134,9 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div className="text-left">
                 <p className="text-sm text-gray-600">{card.title}</p>
-                <h3 className="text-2xl font-bold text-gray-900">{card.value}</h3>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  {card.value}
+                </h3>
               </div>
               <div className={`p-3 rounded-full shadow-md ${card.iconBg}`}>
                 {card.icon}
@@ -149,7 +151,9 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
         {/* Grafik Login */}
         <div className="bg-white p-5 rounded-2xl shadow-md col-span-1">
-          <h3 className="font-semibold text-lg mb-4">Statistik Login User (mingguan)</h3>
+          <h3 className="font-semibold text-lg mb-4">
+            Statistik Login User (mingguan)
+          </h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={loginData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -164,7 +168,9 @@ export default function Dashboard() {
 
         {/* Grafik Booking */}
         <div className="bg-white p-5 rounded-2xl shadow-md col-span-1">
-          <h3 className="font-semibold text-lg mb-4">Statistik Booking (bulanan)</h3>
+          <h3 className="font-semibold text-lg mb-4">
+            Statistik Booking (bulanan)
+          </h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={bookingData}>
               <CartesianGrid strokeDasharray="3 3" />
