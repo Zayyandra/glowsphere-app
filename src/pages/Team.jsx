@@ -1,212 +1,192 @@
-import { useState, useEffect } from "react"
-import { AiFillDelete, AiFillEdit } from "react-icons/ai"
-import { teamAPI } from "../services/teamAPI"
-import AlertBox from "../components/AlertBox"
-import LoadingSpinner from "../components/LoadingSpinner"
-import EmptyState from "../components/EmptyState"
-import GenericTable from "../components/GenericTable"
+import { useEffect, useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { teamAPI } from "../services/teamAPI";
+import AlertBox from "../components/AlertBox";
+import LoadingSpinner from "../components/LoadingSpinner";
+import EmptyState from "../components/EmptyState";
+import GenericTable from "../components/GenericTable";
 
-export default function Team() {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
-    const [success, setSuccess] = useState("")
-    const [teams, setTeams] = useState([])
+export default function TeamList() {
+  const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
-    const [formData, setFormData] = useState({
-        name: "", role: "", email: "", joined_at: new Date().toISOString()
-    })
+  const [formData, setFormData] = useState({
+    name: "",
+    role: "",
+    bio: "",
+    photo: "",
+  });
 
-    const [editingTeamId, setEditingTeamId] = useState(null)
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const handleChange = (evt) => {
-        const { name, value } = evt.target
-        setFormData({ ...formData, [name]: value })
+const loadTeams = async () => {
+  try {
+    setLoading(true);
+    const data = await teamAPI.fetchTeam();
+
+    // Urutkan berdasarkan id ASCENDING
+    const sorted = data.sort((a, b) => a.id - b.id);
+
+    setTeams(sorted);
+  } catch {
+    setError("Gagal memuat data tim.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  useEffect(() => {
+    loadTeams();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, role, bio, photo } = formData;
+    if (!name || !role || !bio || !photo) {
+      setError("Harap isi semua kolom.");
+      return;
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        if (!formData.name || !formData.role || !formData.email) {
-            setError("Harap lengkapi semua field!")
-            return
-        }
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
 
-        try {
-            setLoading(true)
-            setError("")
-            setSuccess("")
+      if (editingId) {
+        await teamAPI.updateTeam(editingId, { name, role, bio, photo });
+        setSuccess("Data tim berhasil diperbarui!");
+      } else {
+        await teamAPI.createTeam({ name, role, bio, photo });
+        setSuccess("Data tim berhasil ditambahkan!");
+      }
 
-            if (editingTeamId) {
-                await teamAPI.updateTeam(editingTeamId, formData)
-                setSuccess("Data tim berhasil diperbarui!")
-            } else {
-                await teamAPI.createTeam(formData)
-                setSuccess("Data tim berhasil ditambahkan!")
-            }
-
-            setFormData({ name: "", role: "", email: "", joined_at: new Date().toISOString() })
-            setEditingTeamId(null)
-            loadTeams()
-
-        } catch (err) {
-            setError(`Terjadi kesalahan: ${err.message}`)
-        } finally {
-            setLoading(false)
-        }
+      setFormData({ name: "", role: "", bio: "", photo: "" });
+      setEditingId(null);
+      loadTeams();
+    } catch {
+      setError("Terjadi kesalahan saat menyimpan data.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleDelete = async (id) => {
-        const konfirmasi = confirm("Yakin ingin menghapus data tim ini?")
-        if (!konfirmasi) return
+  const handleEdit = (item) => {
+    setFormData({
+      name: item.name,
+      role: item.role,
+      bio: item.bio,
+      photo: item.photo,
+    });
+    setEditingId(item.id);
+  };
 
-        try {
-            setLoading(true)
-            setError("")
-            setSuccess("")
+  const handleDelete = async (id) => {
+    const confirmDel = confirm("Yakin ingin menghapus data tim ini?");
+    if (!confirmDel) return;
 
-            await teamAPI.deleteTeam(id)
-            setSuccess("Data tim berhasil dihapus!")
-            loadTeams()
-        } catch (err) {
-            setError(`Terjadi kesalahan: ${err.message}`)
-        } finally {
-            setLoading(false)
-        }
+    try {
+      setLoading(true);
+      await teamAPI.deleteTeam(id);
+      setSuccess("Data tim berhasil dihapus.");
+      loadTeams();
+    } catch {
+      setError("Gagal menghapus data tim.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleEdit = (team) => {
-        setFormData({
-            name: team.name,
-            role: team.role,
-            email: team.email,
-            joined_at: team.joined_at || new Date().toISOString()
-        })
-        setEditingTeamId(team.id)
-    }
+  return (
+    <div className="max-w-5xl mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-6">Manajemen Tim</h2>
 
-        const loadTeams = async () => {
-            try {
-                setLoading(true)
-                setError("")
-                const data = await teamAPI.fetchTeam()
-                setTeams(data)
-            } catch (err) {
-                setError("Gagal memuat artikel")
-                console.error(err)
-            } finally {
-                setLoading(false)
-            }
-        }
+      {error && <AlertBox type="error">{error}</AlertBox>}
+      {success && <AlertBox type="success">{success}</AlertBox>}
 
-    useEffect(() => {
-        loadTeams()
-    }, [])
+      {/* Form Tambah/Edit */}
+      <div className="bg-white shadow rounded-2xl p-6 mb-10">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Nama"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <input
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            placeholder="Role / Jabatan"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
+            placeholder="Bio / Pesan"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <input
+            name="photo"
+            value={formData.photo}
+            onChange={handleChange}
+            placeholder="URL Foto"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
 
-    return (
-        <div className="max-w-5xl mx-auto p-6">
-            <div className="mb-6">
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Manajemen Tim</h2>
-            </div>
+          <button
+            type="submit"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl"
+          >
+            {editingId ? "Perbarui" : "Tambah"}
+          </button>
+        </form>
+      </div>
 
-            {error && <AlertBox type="error">{error}</AlertBox>}
-            {success && <AlertBox type="success">{success}</AlertBox>}
+      {/* Tabel Tim */}
+      {loading && <LoadingSpinner text="Memuat data..." />}
+      {!loading && teams.length === 0 && <EmptyState text="Belum ada data tim." />}
 
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                    {editingTeamId ? "Edit Data Tim" : "Tambah Anggota Tim"}
-                </h3>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        placeholder="Nama Lengkap"
-                        disabled={loading}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-3 bg-gray-50 rounded-2xl border border-gray-200"
-                    />
-
-                    <input
-                        type="text"
-                        name="role"
-                        value={formData.role}
-                        placeholder="Role"
-                        disabled={loading}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-3 bg-gray-50 rounded-2xl border border-gray-200"
-                    />
-
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        placeholder="Email"
-                        disabled={loading}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-3 bg-gray-50 rounded-2xl border border-gray-200"
-                    />
-
-                    <input
-                        type="datetime-local"
-                        name="joined_at"
-                        value={formData.joined_at?.slice(0, 16)}
-                        disabled={loading}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-3 bg-gray-50 rounded-2xl border border-gray-200"
-                    />
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl transition-all"
-                    >
-                        {loading ? "Mohon Tunggu..." : editingTeamId ? "Perbarui Data" : "Tambah Tim"}
-                    </button>
-                </form>
-            </div>
-
-            {loading && <LoadingSpinner text="Memuat data tim..." />}
-            {!loading && teams.length === 0 && !error && <EmptyState text="Belum ada anggota tim." />}
-            {!loading && teams.length === 0 && error && <EmptyState text="Terjadi kesalahan. Coba lagi nanti." />}
-
-            {!loading && teams.length > 0 && (
-                <div className="bg-white rounded-2xl shadow-lg overflow-x-auto mt-10">
-                    <div className="px-6 py-4">
-                        <h3 className="text-lg font-semibold">Daftar Tim ({teams.length})</h3>
-                    </div>
-
-                    <GenericTable
-                        columns={["#", "Nama", "Role", "Email", "Bergabung", "Aksi"]}
-                        data={teams}
-                        renderRow={(item, index) => (
-                            <>
-                                <td className="px-6 py-4">{index + 1}.</td>
-                                <td className="px-6 py-4 font-semibold text-blue-600">{item.name}</td>
-                                <td className="px-6 py-4">{item.role}</td>
-                                <td className="px-6 py-4">{item.email}</td>
-                                <td className="px-6 py-4">
-                                    {new Date(item.joined_at).toLocaleString("id-ID", {
-                                        day: "numeric", month: "long", year: "numeric",
-                                        hour: "2-digit", minute: "2-digit"
-                                    })} WIB
-                                </td>
-                                <td className="px-6 py-4">
-                                    <button onClick={() => handleEdit(item)} disabled={loading} className="mr-2">
-                                        <AiFillEdit className="text-blue-500 text-2xl hover:text-blue-700" />
-                                    </button>
-                                    <button onClick={() => handleDelete(item.id)} disabled={loading}>
-                                        <AiFillDelete className="text-red-400 text-2xl hover:text-red-600" />
-                                    </button>
-                                </td>
-                            </>
-                        )}
-                    />
-                </div>
-            )}
-        </div>
-    )
+      {!loading && teams.length > 0 && (
+        <GenericTable
+          columns={["#", "Nama", "Role", "Bio", "Foto", "Aksi"]}
+          data={teams}
+          renderRow={(item, index) => (
+            <>
+              <td className="px-4 py-2">{index + 1}</td>
+              <td className="px-4 py-2">{item.name}</td>
+              <td className="px-4 py-2">{item.role}</td>
+              <td className="px-4 py-2 italic">"{item.bio}"</td>
+              <td className="px-4 py-2">
+                <img
+                  src={item.photo}
+                  alt={item.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </td>
+              <td className="px-4 py-2">
+                <button onClick={() => handleEdit(item)} className="mr-2">
+                  <AiFillEdit className="text-blue-500 text-xl" />
+                </button>
+                <button onClick={() => handleDelete(item.id)}>
+                  <AiFillDelete className="text-red-500 text-xl" />
+                </button>
+              </td>
+            </>
+          )}
+        />
+      )}
+    </div>
+  );
 }

@@ -1,115 +1,209 @@
-import React, { useState } from "react";
-import testimoniData from "../data/testimoni.json";
-import PageHeader from "../components/PageHeader";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { testimoniAPI } from "../services/testimoniAPI";
+import AlertBox from "../components/AlertBox";
+import LoadingSpinner from "../components/LoadingSpinner";
+import EmptyState from "../components/EmptyState";
+import GenericTable from "../components/GenericTable";
 
-export default function Testimoni() {
-  const [page, setPage] = useState(1);
-  const testimoniPerPage = 10;
+export default function TestimoniList() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [testimonis, setTestimonis] = useState([]);
 
-  const totalPages = Math.ceil(testimoniData.length / testimoniPerPage);
-  const startIdx = (page - 1) * testimoniPerPage;
-  const paginatedTestimoni = testimoniData.slice(
-    startIdx,
-    startIdx + testimoniPerPage
-  );
+  const [formData, setFormData] = useState({
+    name: "",
+    role: "",
+    quote: "",
+    rating: "",
+    avatar: "",
+  });
 
-  const handlePrevious = () => {
-    if (page > 1) setPage(page - 1);
+  const [editingId, setEditingId] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleNext = () => {
-    if (page < totalPages) setPage(page + 1);
+const loadTestimoni = async () => {
+  try {
+    setLoading(true);
+    const data = await testimoniAPI.fetchTestimoni();
+
+    // Urutkan berdasarkan id ASCENDING
+    const sorted = data.sort((a, b) => a.id - b.id);
+
+    setTestimonis(sorted);
+  } catch {
+    setError("Gagal memuat data testimoni.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  useEffect(() => {
+    loadTestimoni();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, role, quote, rating, avatar } = formData;
+    if (!name || !role || !quote || !rating || !avatar) {
+      setError("Harap isi semua kolom.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      const payload = { ...formData, rating: parseInt(formData.rating) };
+
+      if (editingId) {
+        await testimoniAPI.updateTestimoni(editingId, payload);
+        setSuccess("Berhasil diperbarui!");
+      } else {
+        await testimoniAPI.createTestimoni(payload);
+        setSuccess("Berhasil ditambahkan!");
+      }
+
+      setFormData({ name: "", role: "", quote: "", rating: "", avatar: "" });
+      setEditingId(null);
+      loadTestimoni();
+    } catch {
+      setError("Terjadi kesalahan saat menyimpan.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDel = confirm("Yakin ingin menghapus testimoni ini?");
+    if (!confirmDel) return;
+
+    try {
+      setLoading(true);
+      await testimoniAPI.deleteTestimoni(id);
+      setSuccess("Testimoni dihapus.");
+      loadTestimoni();
+    } catch {
+      setError("Gagal menghapus testimoni.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = (item) => {
+    setFormData({
+      name: item.name,
+      role: item.role,
+      quote: item.quote,
+      rating: item.rating.toString(),
+      avatar: item.avatar,
+    });
+    setEditingId(item.id);
   };
 
   return (
-    <div className="p-6">
-      <PageHeader />
+    <div className="max-w-5xl mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-6">Manajemen Testimoni</h2>
 
-      <div className="bg-white rounded-xl shadow ring-1 ring-gray-200 p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-gray-800">📋 Daftar Testimoni</h1>
-          <Link
-            to="/testimoni/add"
-            className="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-md text-sm font-semibold shadow"
-          >
-            ➕ Tambah Testimoni
-          </Link>
-        </div>
+      {error && <AlertBox type="error">{error}</AlertBox>}
+      {success && <AlertBox type="success">{success}</AlertBox>}
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left border border-gray-200">
-            <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-3 border border-gray-200">ID</th>
-                <th className="px-4 py-3 border border-gray-200">Nama</th>
-                <th className="px-4 py-3 border border-gray-200">Produk</th>
-                <th className="px-4 py-3 border border-gray-200">Kategori</th>
-                <th className="px-4 py-3 border border-gray-200">Pesan</th>
-                <th className="px-4 py-3 border border-gray-200">Rating</th>
-                <th className="px-4 py-3 border border-gray-200">Tanggal</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-100">
-              {paginatedTestimoni.map((item, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 transition duration-200">
-                  <td className="px-4 py-2 border border-gray-200 text-gray-700">
-                    <Link
-                      to={`/testimoni/${item.id}`}
-                      className="text-emerald-600 hover:underline"
-                    >
-                      {item.id}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-2 border border-gray-200 text-gray-800">
-                    <Link
-                      to={`/testimoni/${item.id}`}
-                      className="text-emerald-700 hover:underline"
-                    >
-                      {item.name}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-2 border border-gray-200 text-gray-700">
-                    {item.product}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-200 text-gray-600">
-                    {item.category}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-200 text-gray-600">
-                    {item.message}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-200 text-yellow-500">
-                    {"⭐".repeat(item.rating)}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-200 text-gray-500">
-                    {item.date}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* Form Tambah/Edit */}
+      <div className="bg-white shadow rounded-2xl p-6 mb-10">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Nama"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <input
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            placeholder="Role / Jabatan"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <textarea
+            name="quote"
+            value={formData.quote}
+            onChange={handleChange}
+            placeholder="Testimoni"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <input
+            type="number"
+            name="rating"
+            value={formData.rating}
+            onChange={handleChange}
+            placeholder="Rating (1-5)"
+            min="1"
+            max="5"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
+          <input
+            name="avatar"
+            value={formData.avatar}
+            onChange={handleChange}
+            placeholder="URL Avatar (gambar)"
+            className="w-full p-3 rounded-xl border"
+            required
+          />
 
-        <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
           <button
-            onClick={handlePrevious}
-            disabled={page === 1}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed"
+            type="submit"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl"
           >
-            ⬅️ Sebelumnya
+            {editingId ? "Perbarui" : "Tambah"}
           </button>
-          <span>
-            Halaman {page} dari {totalPages}
-          </span>
-          <button
-            onClick={handleNext}
-            disabled={page === totalPages}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Selanjutnya ➡️
-          </button>
-        </div>
+        </form>
       </div>
+
+      {/* Tabel Testimoni */}
+      {loading && <LoadingSpinner text="Memuat data..." />}
+      {!loading && testimonis.length === 0 && <EmptyState text="Belum ada testimoni." />}
+
+      {!loading && testimonis.length > 0 && (
+        <GenericTable
+          columns={["#", "Nama", "Role", "Quote", "Rating", "Avatar", "Aksi"]}
+          data={testimonis}
+          renderRow={(item, index) => (
+            <>
+              <td className="px-4 py-2">{index + 1}</td>
+              <td className="px-4 py-2">{item.name}</td>
+              <td className="px-4 py-2">{item.role}</td>
+              <td className="px-4 py-2 italic">"{item.quote}"</td>
+              <td className="px-4 py-2 text-center">{item.rating}</td>
+              <td className="px-4 py-2">
+                <img
+                  src={item.avatar}
+                  alt={item.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </td>
+              <td className="px-4 py-2">
+                <button onClick={() => handleEdit(item)} className="mr-2">
+                  <AiFillEdit className="text-blue-500 text-xl" />
+                </button>
+                <button onClick={() => handleDelete(item.id)}>
+                  <AiFillDelete className="text-red-500 text-xl" />
+                </button>
+              </td>
+            </>
+          )}
+        />
+      )}
     </div>
   );
 }

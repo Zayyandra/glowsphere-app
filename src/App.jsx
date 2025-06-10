@@ -30,9 +30,7 @@ const ErrorPage401 = React.lazy(() => import("./pages/ErrorPage401"));
 const ErrorPage403 = React.lazy(() => import("./pages/ErrorPage403"));
 const AddOrder = React.lazy(() => import("./pages/AddOrder"));
 const Testimoni = React.lazy(() => import("./pages/Testimoni"));
-const AddTestimoni = React.lazy(() => import("./pages/AddTestimoni"));
 const FAQ = React.lazy(() => import("./pages/FAQ"));
-const AddFAQ = React.lazy(() => import("./pages/AddFAQ"));
 const Contactus = React.lazy(() => import("./pages/Contactus"));
 const EditContactUs = React.lazy(() => import("./pages/EditContactUs"));
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
@@ -42,8 +40,6 @@ const Register = React.lazy(() => import("./pages/auth/Register"));
 const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
 const OrderDetail = React.lazy(() => import("./pages/OrderDetail"))
-const TestimoniDetail = React.lazy(() => import("./pages/TestimoniDetail"))
-const FaqDetail = React.lazy(() => import("./pages/FaqDetail"))
 const Article = React.lazy(() => import("./pages/Article"))
 const Team = React.lazy(() => import("./pages/Team"))
 const User = React.lazy(() => import("./pages/User"))
@@ -58,11 +54,9 @@ function App() {
           <Route path="/product" element={<Product />} />
           <Route path="/product/add" element={<AddProduct />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/faq/add" element={<AddFAQ />} />
           <Route path="/order" element={<Order />} />
           <Route path="/order/add" element={<AddOrder />} />
           <Route path="/testimoni" element={<Testimoni />} />
-          <Route path="/testimoni/add" element={<AddTestimoni />} />
           <Route path="/article" element={<Article />} />
           <Route path="/team" element={<Team />} />
           <Route path="/user" element={<User />} />
@@ -74,8 +68,6 @@ function App() {
           <Route path="/contactus/edit" element={< EditContactUs/>} />
           <Route path="/product/:id" element={<ProductDetail/>} />
           <Route path="/order/:id" element={<OrderDetail/>} /> 
-          <Route path="/testimoni/:id" element={<TestimoniDetail/>} />
-          <Route path="/faq/:id" element={<FaqDetail/>} /> 
 
 
 

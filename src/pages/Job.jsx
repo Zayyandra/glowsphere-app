@@ -87,18 +87,25 @@ export default function CareerList() {
     setEditingCareerId(career.id);
   };
 
-  const loadCareers = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      const data = await careerAPI.fetchCareer();
-      setCareers(data);
-    } catch (err) {
-      setError("Gagal memuat data pekerjaan.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const loadCareers = async () => {
+  try {
+    console.log("Memulai loadCareers...");
+    setLoading(true);
+    setError("");
+    const data = await careerAPI.fetchCareer();
+    console.log("Data berhasil:", data);
+
+    // Urutkan berdasarkan ID secara ASCENDING
+    const sorted = data.sort((a, b) => a.id - b.id);
+
+    setCareers(sorted);
+  } catch (err) {
+    console.error("Terjadi error saat fetch:", err);
+    setError("Gagal memuat data pekerjaan.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     loadCareers();
@@ -152,13 +159,27 @@ export default function CareerList() {
             className="w-full p-3 bg-gray-50 rounded-2xl border border-gray-200"
           />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl transition-all"
-          >
-            {loading ? "Mohon Tunggu..." : editingCareerId ? "Perbarui Data" : "Tambah Pekerjaan"}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl transition-all"
+            >
+              {loading ? "Mohon Tunggu..." : editingCareerId ? "Perbarui Data" : "Tambah Pekerjaan"}
+            </button>
+            {editingCareerId && (
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData({ title: "", location: "", description: "" });
+                  setEditingCareerId(null);
+                }}
+                className="px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-2xl transition-all"
+              >
+                Batal Edit
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
