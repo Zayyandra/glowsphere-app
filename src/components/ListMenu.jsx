@@ -58,15 +58,35 @@ export default function ListMenu() {
             </NavLink>
           </li>
         ))}
-        <li className="mt-auto pt-6">
-          <div
-            onClick={handleSignOut}
-            className="flex items-center gap-2 p-3 cursor-pointer rounded-xl text-indigo-600 hover:bg-gray-100"
-          >
-            <FaSignOutAlt className="text-lg" />
-            <span className="text-sm">Sign Out</span>
-          </div>
-        </li>
+<li className="mt-auto pt-6">
+  <details className="dropdown dropdown-top w-full" id="logoutDropdown">
+    <summary className="flex items-center gap-2 p-3 cursor-pointer rounded-xl text-indigo-600 hover:bg-gray-100 w-full">
+      <FaSignOutAlt className="text-lg" />
+      <span className="text-sm">Log Out</span>
+    </summary>
+    <ul className="menu dropdown-content z-[1] p-2 shadow bg-white rounded-box w-52">
+      <li>
+        <button
+          onClick={handleSignOut}
+          className="text-red-600 hover:text-red-800"
+        >
+          Konfirmasi Log Out
+        </button>
+      </li>
+      <li>
+        <button
+          onClick={() => {
+            const dropdown = document.getElementById("logoutDropdown");
+            if (dropdown) dropdown.open = false;
+          }}
+          className="text-gray-700 hover:text-black"
+        >
+          Batal
+        </button>
+      </li>
+    </ul>
+  </details>
+</li>
       </ul>
     </div>
   );

@@ -102,7 +102,6 @@ export default function Dashboard() {
 
   return (
     <div className="p-6 space-y-6">
-      <PageHeader title="Dashboard" subtitle="Ringkasan informasi utama" />
 
       {/* Kutipan Motivasi */}
       <div className="relative overflow-hidden rounded-2xl bg-indigo-100 p-6 shadow-md transition-all hover:shadow-lg">
