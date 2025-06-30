@@ -5,12 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-// ...imports
+// Supabase config
+const API_URL = "https://ibblbpjrmcaimtbilpeh.supabase.co/rest/v1/login";
+const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliYmxicGpybWNhaW10YmlscGVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5MDk5MzYsImV4cCI6MjA2NDQ4NTkzNn0.-EyUJV7-zntpQorquExKu7eEi69Jmy4NsMYqPBvXLtc";
+
+const headers = {
+  apikey: API_KEY,
+  Authorization: `Bearer ${API_KEY}`,
+  "Content-Type": "application/json",
+};
+
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [dataForm, setDataForm] = useState({ email: "", password: "" });
+  const [dataForm, setDataForm] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,15 +31,32 @@ export default function Login() {
     setLoading(true);
     setError("");
 
+    if (!dataForm.username || !dataForm.password) {
+      setError("Username dan password harus diisi.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const res = await axios.post("https://dummyjson.com/user/login", {
-        username: dataForm.email,
-        password: dataForm.password,
+      const res = await axios.get(API_URL, {
+        headers,
+        params: {
+          username: `eq.${dataForm.username}`,
+          password: `eq.${dataForm.password}`,
+          select: "*",
+        },
       });
 
-      if (res.status === 200) navigate("/");
+      if (res.data.length > 0) {
+        // Login berhasil
+        window.location.href = "https://glowsphere-app.vercel.app/";
+      } else {
+        setError("Username atau password salah");
+      }
     } catch (err) {
-      setError(err?.response?.data?.message || "Login failed");
+      console.error("Login Error:", err);
+      const message = err?.response?.data?.message || "Gagal login. Coba lagi nanti.";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -54,13 +80,13 @@ export default function Login() {
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
           <input
             type="text"
-            name="email"
+            name="username"
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50"
-            placeholder="you@example.com"
+            placeholder="Admin1234"
           />
         </div>
 

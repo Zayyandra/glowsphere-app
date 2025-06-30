@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   FaDollarSign,
   FaShoppingCart,
@@ -6,8 +5,12 @@ import {
   FaUsers,
   FaSearch,
   FaChevronDown,
-  // FaSync, // Dihapus karena Kutipan Hari Ini dihapus
-  // FaQuoteLeft, // Dihapus karena Kutipan Hari Ini dihapus
+  FaSync,
+  FaQuoteLeft,
+  FaBell
+  // Menghapus ikon yang tidak relevan jika tidak ada sidebar/header lain
+  // FaHome, FaThLarge, FaChartLine, FaBoxOpen, FaEnvelope, FaQuestionCircle,
+  // FaUserCog, FaUserCircle, FaCog, FaSignOutAlt, FaBell, FaUser, FaCube,
 } from "react-icons/fa";
 import {
   BarChart,
@@ -21,14 +24,15 @@ import {
   Line,
   Legend,
 } from "recharts";
-import axios from "axios"; // axios tetap diimpor, tetapi tidak digunakan lagi untuk kutipan
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Dashboard() {
-  // const [quote, setQuote] = useState(""); // Dihapus
-  // const [error, setError] = useState(null); // Dihapus
-  // const [refreshTrigger, setRefreshTrigger] = useState(0); // Dihapus
+  const [quote, setQuote] = useState("");
+  const [error, setError] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Data dummy yang Disesuaikan dengan Gambar image_010b85.png
+  // Data dummy yang Disesuaikan dengan Gambar image_413f11.png (dan lainnya)
   const todaySalesData = [
     { name: "Total Sales", value: "$1k", change: "+5% from yesterday", bgColor: "bg-red-100", iconBg: "bg-red-500", icon: <FaDollarSign className="text-red-600" /> },
     { name: "Total Order", value: "300", change: "+3% from yesterday", bgColor: "bg-orange-100", iconBg: "bg-orange-500", icon: <FaShoppingCart className="text-orange-600" /> },
@@ -37,13 +41,13 @@ export default function Dashboard() {
   ];
 
   const totalRevenueData = [
-    { day: "Monday", online: 18, offline: 12 },
-    { day: "Tuesday", online: 24, offline: 10 },
-    { day: "Wednesday", online: 15, offline: 8 },
-    { day: "Thursday", online: 28, offline: 15 },
-    { day: "Friday", online: 20, offline: 10 },
-    { day: "Saturday", online: 25, offline: 12 },
-    { day: "Sunday", online: 18, offline: 9 },
+    { day: "Mon", online: 18, offline: 12 }, // Singkat nama hari
+    { day: "Tue", online: 24, offline: 10 },
+    { day: "Wed", online: 15, offline: 8 },
+    { day: "Thu", online: 28, offline: 15 },
+    { day: "Fri", online: 20, offline: 10 },
+    { day: "Sat", online: 25, offline: 12 },
+    { day: "Sun", online: 18, offline: 9 },
   ];
 
   const visitorInsightsData = [
@@ -91,69 +95,76 @@ export default function Dashboard() {
     { id: "02", name: "Disney Princess Pink Bag", popularity: 70, sales: "29%" },
     { id: "03", name: "Bathroom Essentials", popularity: 60, sales: "18%" },
     { id: "04", name: "Apple Smartwatches", popularity: 50, sales: "25%" },
-    // Tambahkan lebih banyak jika ada di gambar
   ];
 
   const volumeServiceLevelData = [
-    { name: "Volume", value: 1135, fill: "#5850ec" }, // Purple/Blue
-    { name: "Services", value: 635, fill: "#10b981" }, // Green
+    { name: "Volume", value: 1135, fill: "#5850ec" },
+    { name: "Services", value: 635, fill: "#10b981" },
   ];
 
-  // Efek samping untuk API kutipan dihapus karena tidak lagi digunakan
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     axios
-  //       .get(`https://api.adviceslip.com/advice`)
-  //       .then((res) => {
-  //         setQuote(res.data.slip.advice);
-  //         setError(null);
-  //       })
-  //       .catch(() => setError("Gagal mengambil kutipan motivasi."));
-  //   }, 100);
-  //   return () => clearTimeout(timeout);
-  // }, [refreshTrigger]);
+  useEffect(() => {
+    axios
+      .get(`https://api.adviceslip.com/advice`)
+      .then((res) => {
+        setQuote(res.data.slip.advice);
+        setError(null);
+      })
+      .catch(() => setError("Gagal mengambil kutipan motivasi."));
+  }, [refreshTrigger]);
+
+  const handleRefreshQuote = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
 
   return (
-    // Outer container for the entire dashboard content, matching the light grey background from image_010b85.png
-    <div className="min-h-screen bg-gray-100 p-6 font-sans text-gray-800">
+    // Outer container for the entire dashboard content.
+    // Asumsi div ini adalah area utama dashboard yang ingin dirapikan.
+    // bg-gray-100 dan p-8 (atau padding lainnya) akan menjadi latar belakang keseluruhan.
+    <div className="min-h-screen bg-gray-100 p-8 font-sans text-gray-800">
 
-      {/* Top Header Bar - Sesuai gambar image_010b85.png */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm mb-6">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search here..."
-              className="px-4 py-2 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-violet-400"
-            />
-            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+      {/* Header section - Ini adalah bagian paling atas dari dashboard,
+          seperti yang terlihat di gambar Anda (Dashboard title, search, language, notif, profile).
+          Kita akan pastikan ini memiliki padding dan margin bottom yang konsisten.
+      */}
+
+      {/* Konten Dashboard Utama - Semua komponen di bawah header.
+          Div ini akan mengatur tata letak baris-baris komponen dashboard.
+      */}
+      <div className="space-y-8"> {/* Mengatur jarak vertikal antar baris komponen dashboard */}
+
+        {/* Baris Pertama: Quote of the Day, Today's Sales, dan Visitor Insights */}
+        {/* Menggunakan grid 3 kolom: Quote (1), Today's Sales (1), Visitor Insights (1) */}
+        {/* Sesuaikan col-span agar Today's Sales menjadi 1 kolom dan Visitor Insights juga 1 kolom,
+            sehingga ketiganya sejajar dan membagi 3 kolom di row ini.
+            Di gambar, Today's Sales adalah 2/3 dan Visitor Insights adalah 1/3,
+            dan Quote of the Day berdiri sendiri di atas.
+            Kita akan mengikuti tata letak gambar: Quote di baris sendiri, lalu Today's Sales & Visitor Insights di baris berikutnya.
+        */}
+
+        {/* Quote of the Day Section - Ini adalah baris tersendiri */}
+        <div className="bg-white p-6 rounded-2xl shadow-md mb-8"> {/* Meningkatkan margin-bottom */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-800">Quote of the Day</h2>
+            <button
+              onClick={handleRefreshQuote}
+              className="flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200"
+            >
+              <FaSync className="mr-2" /> Refresh
+            </button>
           </div>
-          <div className="flex items-center px-3 py-2 rounded-lg border border-gray-200">
-            <img src="https://flagcdn.com/w20/gb.png" alt="English Flag" className="w-5 h-4 mr-2" />
-            <span>Eng (US)</span>
-            <FaChevronDown className="ml-2 text-gray-500 text-xs" />
-          </div>
-          <div className="flex items-center space-x-2">
-            <img
-              src="https://via.placeholder.com/40" // Replace with actual avatar
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full border-2 border-white shadow-sm"
-            />
-            <div>
-              <p className="font-semibold text-sm">Mustaq</p>
-              <p className="text-xs text-gray-500">Admin</p>
-            </div>
-            <FaChevronDown className="text-gray-500 text-xs" />
-          </div>
+          {error ? (
+            <p className="text-red-500 text-center py-4">{error}</p>
+          ) : (
+            <p className="text-gray-700 italic flex items-start text-base leading-relaxed">
+              <FaQuoteLeft className="text-gray-400 mr-2 mt-0.5" /> "{quote}"
+            </p>
+          )}
         </div>
-      </div>
 
-      {/* Konten Dashboard Utama - Fokus pada image_010b85.png */}
-      <div className="space-y-6">
-        {/* Top Row: Today's Sales and Visitor Insights */}
-        <div className="grid grid-cols-3 gap-6">
-          {/* Today's Sales */}
+        {/* Baris Kedua: Today's Sales dan Visitor Insights */}
+        {/* Grid 3 kolom: Today's Sales (2 kolom), Visitor Insights (1 kolom) */}
+        <div className="grid grid-cols-3 gap-8"> {/* Mengatur 3 kolom dengan gap yang konsisten */}
+          {/* Today's Sales - col-span-2 dari 3 kolom */}
           <div className="col-span-2 bg-white p-6 rounded-2xl shadow-md">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-800">Today's Sales</h2>
@@ -162,7 +173,7 @@ export default function Dashboard() {
               </button>
             </div>
             <p className="text-sm text-gray-500 mb-6">Sales Summary</p>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 gap-4"> {/* Gap antar kartu statistik di dalamnya */}
               {todaySalesData.map((item, index) => (
                 <div
                   key={index}
@@ -183,7 +194,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Visitor Insights */}
+          {/* Visitor Insights - col-span-1 dari 3 kolom */}
           <div className="col-span-1 bg-white p-6 rounded-2xl shadow-md">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Visitor Insights</h2>
             <ResponsiveContainer width="100%" height={200}>
@@ -195,38 +206,38 @@ export default function Dashboard() {
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tickFormatter={(tick) => tick.substring(0, 3)} />
                 <YAxis axisLine={false} tickLine={false} />
                 <Tooltip />
-                <Legend iconType="circle" wrapperStyle={{ paddingLeft: '20px' }} />
+                <Legend iconType="circle" wrapperStyle={{ paddingLeft: '20px', paddingTop: '10px' }} />
                 <Line
                   type="monotone"
                   dataKey="loyal"
-                  stroke="#8884d8" // Purple
-                  strokeWidth={2}
+                  stroke="#8884d8"
+                  strokeWidth={2.5}
                   dot={false}
                   name="Loyal Customers"
                 />
                 <Line
                   type="monotone"
                   dataKey="new"
-                  stroke="#82ca9d" // Green
-                  strokeWidth={2}
+                  stroke="#82ca9d"
+                  strokeWidth={2.5}
                   dot={false}
                   name="New Customers"
                 />
                 <Line
                   type="monotone"
                   dataKey="unique"
-                  stroke="#ff7300" // Orange
-                  strokeWidth={2}
+                  stroke="#ff7300"
+                  strokeWidth={2.5}
                   dot={false}
                   name="Unique Customers"
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </div> {/* Akhir dari Baris Kedua */}
 
-        {/* Middle Row: Total Revenue, Customer Satisfaction, Target vs Reality */}
-        <div className="grid grid-cols-3 gap-6">
+        {/* Baris Ketiga: Total Revenue, Customer Satisfaction, Target vs Reality */}
+        <div className="grid grid-cols-3 gap-8"> {/* Mengatur 3 kolom dengan gap yang konsisten */}
           {/* Total Revenue */}
           <div className="bg-white p-6 rounded-2xl shadow-md col-span-1">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Total Revenue</h2>
@@ -237,8 +248,8 @@ export default function Dashboard() {
                 <YAxis axisLine={false} tickLine={false} />
                 <Tooltip />
                 <Legend iconType="circle" wrapperStyle={{ paddingLeft: '20px' }} />
-                <Bar dataKey="online" fill="#5850ec" name="Online Sales" barSize={10} /> {/* Blue-purple */}
-                <Bar dataKey="offline" fill="#1e90ff" name="Offline Sales" barSize={10} /> {/* Lighter blue */}
+                <Bar dataKey="online" fill="#5850ec" name="Online Sales" barSize={10} />
+                <Bar dataKey="offline" fill="#1e90ff" name="Offline Sales" barSize={10} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -253,7 +264,7 @@ export default function Dashboard() {
                 <XAxis dataKey="month" axisLine={false} tickLine={false} />
                 <YAxis axisLine={false} tickLine={false} />
                 <Tooltip />
-                <Line type="monotone" dataKey="satisfaction" stroke="#82ca9d" strokeWidth={2} dot={false} /> {/* Green */}
+                <Line type="monotone" dataKey="satisfaction" stroke="#82ca9d" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -277,15 +288,15 @@ export default function Dashboard() {
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tickFormatter={(tick) => tick.substring(0, 3)} />
                 <YAxis axisLine={false} tickLine={false} />
                 <Tooltip />
-                <Bar dataKey="reality" fill="#1e90ff" barSize={10} name="Reality" /> {/* Lighter blue */}
-                <Bar dataKey="target" fill="#5850ec" barSize={10} name="Target" /> {/* Blue-purple */}
+                <Bar dataKey="reality" fill="#1e90ff" barSize={10} name="Reality" />
+                <Bar dataKey="target" fill="#5850ec" barSize={10} name="Target" />
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </div> {/* Akhir dari Baris Ketiga */}
 
-        {/* Bottom Row: Top Products, Sales Mapping (placeholder), Volume vs Service Level */}
-        <div className="grid grid-cols-3 gap-6">
+        {/* Baris Keempat: Top Products, Sales Mapping (placeholder), Volume vs Service Level */}
+        <div className="grid grid-cols-3 gap-8"> {/* Mengatur 3 kolom dengan gap yang konsisten */}
           {/* Top Products */}
           <div className="bg-white p-6 rounded-2xl shadow-md col-span-1">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Top Products</h2>
@@ -300,13 +311,12 @@ export default function Dashboard() {
                         className="h-2 rounded-full"
                         style={{
                           width: `${product.popularity}%`,
-                          // Colors based on image: green for 80%, pink for 70%, purple for 60%, orange for 50%
                           backgroundColor:
                             product.popularity === 80 ? '#10b981' :
                             product.popularity === 70 ? '#ec4899' :
                             product.popularity === 60 ? '#8b5cf6' :
                             product.popularity === 50 ? '#f97316' :
-                            '#3b82f6' // Default if none match
+                            '#3b82f6'
                         }}
                       ></div>
                     </div>
@@ -317,10 +327,10 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Sales Mapping by Country (Placeholder as Recharts cannot render maps) */}
+          {/* Sales Mapping by Country (Placeholder) */}
           <div className="bg-white p-6 rounded-2xl shadow-md col-span-1 flex flex-col justify-center items-center text-center">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Sales Mapping by Country</h2>
-            <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
+            <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 border border-dashed border-gray-300">
               <p>Map visualization placeholder (requires a separate map library)</p>
             </div>
           </div>
@@ -339,8 +349,9 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </div>
-      </div>
+        </div> {/* Akhir dari Baris Keempat */}
+
+      </div> {/* Akhir dari Konten Dashboard Utama */}
     </div>
   );
 }

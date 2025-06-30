@@ -32,7 +32,6 @@ const AddOrder = React.lazy(() => import("./pages/AddOrder"));
 const Testimoni = React.lazy(() => import("./pages/Testimoni"));
 const FAQ = React.lazy(() => import("./pages/FAQ"));
 const Contactus = React.lazy(() => import("./pages/Contactus"));
-const EditContactUs = React.lazy(() => import("./pages/EditContactUs"));
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
 const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
 const Login = React.lazy(() => import("./pages/auth/Login"));
@@ -42,8 +41,12 @@ const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
 const OrderDetail = React.lazy(() => import("./pages/OrderDetail"))
 const Article = React.lazy(() => import("./pages/Article"))
 const Team = React.lazy(() => import("./pages/Team"))
-const User = React.lazy(() => import("./pages/User"))
 const Job = React.lazy(() => import("./pages/Job"))
+const User = React.lazy(() => import("./pages/User"))
+const Gallery = React.lazy(() => import("./pages/Gallery"))
+// const ProfilPerusahaan = React.lazy(() => import("./pages/ProfilPerushaan"))
+
+
 
 function App() {
   return (
@@ -61,11 +64,12 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/user" element={<User />} />
           <Route path="/job" element={<Job />} />
+          <Route path="/gallery" element={<Gallery />} />
+          {/* <Route path="/job" element={<Job />} /> */}
           <Route path="/error/400" element={<ErrorPage400 />} />
           <Route path="/error/401" element={<ErrorPage401 />} />
           <Route path="/error/403" element={<ErrorPage403 />} />
           <Route path="/contactus" element={<Contactus />} />
-          <Route path="/contactus/edit" element={< EditContactUs/>} />
           <Route path="/product/:id" element={<ProductDetail/>} />
           <Route path="/order/:id" element={<OrderDetail/>} /> 
 
