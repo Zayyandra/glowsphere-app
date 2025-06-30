@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { productAPI } from "../services/productAPI";
+import { productAPI } from "../services/productsAPI";
 import AlertBox from "../components/AlertBox";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";

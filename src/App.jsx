@@ -23,6 +23,7 @@ import "./assets/tailwind.css";
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Loading = React.lazy(() => import("./components/Loading"));
 const Product = React.lazy(() => import("./pages/Product"));
+const Products = React.lazy(() => import("./pages/Products"));
 const AddProduct = React.lazy(() => import("./pages/AddProduct"));
 const Order = React.lazy(() => import("./pages/Order"));
 const ErrorPage400 = React.lazy(() => import("./pages/ErrorPage400"));
@@ -44,7 +45,7 @@ const Team = React.lazy(() => import("./pages/Team"))
 const Job = React.lazy(() => import("./pages/Job"))
 const User = React.lazy(() => import("./pages/User"))
 const Gallery = React.lazy(() => import("./pages/Gallery"))
-// const ProfilPerusahaan = React.lazy(() => import("./pages/ProfilPerushaan"))
+const ProfilPerusahaan = React.lazy(() => import("./pages/ProfilPerusahaan"))
 
 
 
@@ -55,6 +56,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/product/add" element={<AddProduct />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/order" element={<Order />} />
@@ -65,7 +67,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/job" element={<Job />} />
           <Route path="/gallery" element={<Gallery />} />
-          {/* <Route path="/job" element={<Job />} /> */}
+          <Route path="/profilperusahaan" element={<ProfilPerusahaan />} />
           <Route path="/error/400" element={<ErrorPage400 />} />
           <Route path="/error/401" element={<ErrorPage401 />} />
           <Route path="/error/403" element={<ErrorPage403 />} />

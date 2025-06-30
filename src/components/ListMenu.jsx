@@ -29,17 +29,18 @@ export default function ListMenu() {
 
   const menus = [
     { id: 1, icon: <MdDashboard />, label: "Dashboard", path: "/" },
-    { id: 2, icon: <FaBox />, label: "Produk", path: "/Product" },
-    { id: 3, icon: <FaNewspaper />, label: "Artikel", path: "/Article" },
-    { id: 4, icon: <FaCommentAlt />, label: "FAQ", path: "/FAQ" },
-    { id: 5, icon: <FaUsers />, label: "Tim", path: "/Team" },
-    { id: 6, icon: <FaBriefcase />, label: "Lowongan Kerja", path: "/Job" },
-    { id: 7, icon: <FaChartBar />, label: "Testimoni", path: "/Testimoni" },
-    { id: 8, icon: <BiCart />, label: "Pemesanan", path: "/Order" },
-    { id: 9, icon: <FaEnvelope />, label: "Contact Us", path: "/Contactus" },
-    { id: 10, icon: <FaUserShield />, label: "User", path: "/User" },
-    { id: 11, icon: <FaBuilding />, label: "Profil Perusahaan", path: "/ProfilPerusahaan" },
-    { id: 12, icon: <FaImages />, label: "Galeri Media", path: "/Gallery" },
+    { id: 2, icon: <FaBox />, label: "Produk 1", path: "/Product" },
+    { id: 3, icon: <FaBox />, label: "Produk 2", path: "/Products" },
+    { id: 4, icon: <FaNewspaper />, label: "Artikel", path: "/Article" },
+    { id: 5, icon: <FaCommentAlt />, label: "FAQ", path: "/FAQ" },
+    { id: 6, icon: <FaUsers />, label: "Tim", path: "/Team" },
+    { id: 7, icon: <FaBriefcase />, label: "Lowongan Kerja", path: "/Job" },
+    { id: 8, icon: <FaChartBar />, label: "Testimoni", path: "/Testimoni" },
+    { id: 9, icon: <BiCart />, label: "Pemesanan", path: "/Order" },
+    { id: 10, icon: <FaEnvelope />, label: "Contact Us", path: "/Contactus" },
+    { id: 11, icon: <FaUserShield />, label: "User", path: "/User" },
+    { id: 12, icon: <FaBuilding />, label: "Profil Perusahaan", path: "/ProfilPerusahaan" },
+    { id: 13, icon: <FaImages />, label: "Galeri Media", path: "/Gallery" },
   ];
 
   const handleSignOut = () => {
