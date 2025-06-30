@@ -1,98 +1,101 @@
-import React from "react";
-import order from "../data/order.json";
-import PageHeader from "../components/PageHeader";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { bookingAPI } from "../services/bookingAPI";
+import AlertBox from "../components/AlertBox";
+import LoadingSpinner from "../components/LoadingSpinner";
+import EmptyState from "../components/EmptyState";
+import GenericTable from "../components/GenericTable";
 
-export default function Order() {
-  const statusColor = {
-    Completed: "bg-green-100 text-green-600",
-    Pending: "bg-yellow-100 text-yellow-600",
-    Canceled: "bg-red-100 text-red-600",
-  };
+export default function BookingList() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [bookings, setBookings] = useState([]);
 
-  const totalOrders = order.length;
-  const uniqueCustomers = [...new Set(order.map((o) => o.customerName))].length;
+  const loadBookings = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await bookingAPI.fetchBooking();
+    const sorted = data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      setBookings(sorted);
+    } catch (err) {
+      let errorMessage = "Gagal memuat data booking. ";
+      if (err.response?.data?.message) {
+        errorMessage += err.response.data.message;
+      } else if (err.message) {
+        errorMessage += err.message;
+      } else {
+        errorMessage += "Silakan cek koneksi atau URL API Anda.";
+      }
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadBookings();
+  }, [loadBookings]);
+
+  const tableColumns = [
+    "#", "ID", "Nama", "Email", "Tanggal Booking", "Waktu", "Produk", "Jumlah", "Total Harga", "Catatan", "Tanggal Dibuat"
+  ];
 
   return (
-    <div className="p-6">
-      <PageHeader />
-
-      {/* Grid statistik atas */}
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-white rounded-xl shadow p-5 border-l-4 border-blue-500">
-          <h2 className="text-lg font-semibold text-gray-700">Total Order</h2>
-          <p className="text-4xl font-bold text-blue-600 mt-1">{totalOrders}</p>
-        </div>
-        <div className="bg-white rounded-xl shadow p-5 border-l-4 border-emerald-500">
-          <h2 className="text-lg font-semibold text-gray-700">
-            Pelanggan Unik
-          </h2>
-          <p className="text-4xl font-bold text-emerald-600 mt-1">
-            {uniqueCustomers}
-          </p>
-        </div>
+    <div className="w-full px-6 py-6 space-y-8">
+      <div>
+        <h2 className="text-3xl font-bold text-gray-800">Daftar Booking Produk</h2>
+        <p className="text-gray-600">Lihat semua data pemesanan produk yang masuk.</p>
       </div>
 
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">📦 Daftar Order</h1>
-        <Link
-          to="/order/add"
-          className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-semibold shadow"
-        >
-          ➕ Add Order
-        </Link>
-      </div>
+      {error && <AlertBox type="error">{error}</AlertBox>}
 
-      <div className="bg-white rounded-xl shadow ring-1 ring-gray-200 p-4">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left">
-            <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-3">Order ID</th>
-                <th className="px-4 py-3">Nama</th>
-                <th className="px-4 py-3">Produk</th>
-                <th className="px-4 py-3">Quantity</th>
-                <th className="px-4 py-3">Total</th>
-                <th className="px-4 py-3">Status</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-100">
-              {order.map((order, idx) => (
-                <tr
-                  key={idx}
-                  className="hover:bg-gray-50 transition duration-200"
-                >
-                  <td className="px-4 py-2 font-medium text-gray-700">
-                    <Link
-                      to={`/order/${order.orderId}`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      {order.orderId}
-                    </Link>
-                  </td>{" "}
-                  <td className="px-4 py-2 text-gray-800">
-                    {order.customerName}
-                  </td>
-                  <td className="px-4 py-2">{order.product}</td>
-                  <td className="px-4 py-2">{order.quantity}</td>
-                  <td className="px-4 py-2 text-black font-medium">
-                    Rp {order.total.toLocaleString("id-ID")}
-                  </td>
-                  <td className="px-4 py-2">
-                    <span
-                      className={`px-2 py-1 text-xs font-semibold rounded ${
-                        statusColor[order.status] || "bg-gray-100 text-gray-600"
-                      }`}
-                    >
-                      {order.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {loading ? (
+        <LoadingSpinner text="Memuat data booking..." />
+      ) : bookings.length === 0 ? (
+        error ? (
+          <EmptyState text="Terjadi kesalahan. Coba lagi nanti." />
+        ) : (
+          <EmptyState text="Belum ada data booking." />
+        )
+      ) : (
+        <div className="bg-white rounded-2xl shadow-lg overflow-x-auto">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h3 className="text-xl font-semibold text-gray-800">Total Booking: {bookings.length}</h3>
+          </div>
+
+          <GenericTable
+            columns={tableColumns}
+            data={bookings}
+            renderRow={(item, index) => (
+              <>
+                <td className="px-3 py-3 text-sm">{index + 1}.</td>
+                <td className="px-3 py-3 text-sm font-mono">{item.id}</td>
+                <td className="px-3 py-3 text-sm">{item.name}</td>
+                <td className="px-3 py-3 text-sm text-blue-600">
+                  <a href={`mailto:${item.email}`} className="hover:underline">{item.email}</a>
+                </td>
+                <td className="px-3 py-3 text-sm">{item.date || "—"}</td>
+                <td className="px-3 py-3 text-sm">{item.time || "—"}</td>
+                <td className="px-3 py-3 text-sm">{item.product || "—"}</td>
+                <td className="px-3 py-3 text-sm">{item.quantity || 1}</td>
+                <td className="px-3 py-3 text-sm font-semibold text-gray-800">
+                  {item.total_price
+                    ? `Rp${Number(item.total_price).toLocaleString("id-ID")}`
+                    : "Rp0"}
+                </td>
+                <td className="px-3 py-3 text-sm max-w-md whitespace-normal">
+                  {item.notes || <span className="text-gray-400 italic">Tidak ada</span>}
+                </td>
+                <td className="px-3 py-3 text-sm text-nowrap text-gray-500">
+                  {item.created_at
+                    ? new Date(item.created_at).toLocaleString("id-ID")
+                    : "—"}
+                </td>
+              </>
+            )}
+          />
         </div>
-      </div>
+      )}
     </div>
   );
 }
