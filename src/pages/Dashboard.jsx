@@ -165,34 +165,44 @@ export default function Dashboard() {
         {/* Grid 3 kolom: Today's Sales (2 kolom), Visitor Insights (1 kolom) */}
         <div className="grid grid-cols-3 gap-8"> {/* Mengatur 3 kolom dengan gap yang konsisten */}
           {/* Today's Sales - col-span-2 dari 3 kolom */}
-          <div className="col-span-2 bg-white p-6 rounded-2xl shadow-md">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">Today's Sales</h2>
-              <button className="px-4 py-2 text-sm bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
-                <FaBox className="inline-block mr-2" /> Export
-              </button>
-            </div>
-            <p className="text-sm text-gray-500 mb-6">Sales Summary</p>
-            <div className="grid grid-cols-4 gap-4"> {/* Gap antar kartu statistik di dalamnya */}
-              {todaySalesData.map((item, index) => (
-                <div
-                  key={index}
-                  className={`p-4 rounded-xl text-center shadow-sm ${item.bgColor}`}
-                >
-                  <div className="flex items-center justify-center mb-2">
-                    <div className={`p-3 rounded-full ${item.iconBg}`}>
-                      {item.icon}
-                    </div>
-                  </div>
-                  <div className="text-3xl font-bold mb-1 text-gray-900">{item.value}</div>
-                  <p className="text-sm text-gray-600 mb-2">{item.name}</p>
-                  <p className={`text-xs ${item.change.includes('+') ? 'text-green-500' : 'text-red-500'}`}>
-                    {item.change}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+<div className="col-span-2 bg-white p-6 rounded-2xl shadow-md">
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-2 md:space-y-0">
+    <h2 className="text-lg font-semibold text-gray-800">Today's Sales</h2>
+    <div className="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
+      <button className="px-4 py-2 text-sm bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+        <FaBox className="inline-block mr-2" /> Export
+      </button>
+      <a
+        href="/products"
+        className="px-4 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 flex items-center"
+      >
+        <FaSearch className="inline-block mr-2" /> Go to Product
+      </a>
+    </div>
+  </div>
+  <p className="text-sm text-gray-500 mb-6">Sales Summary</p>
+  <div className="grid grid-cols-4 gap-4">
+    {todaySalesData.map((item, index) => (
+      <div
+        key={index}
+        className={`p-4 rounded-xl text-center shadow-sm ${item.bgColor}`}
+      >
+        <div className="flex items-center justify-center mb-2">
+          <div className={`p-3 rounded-full ${item.iconBg}`}>{item.icon}</div>
+        </div>
+        <div className="text-3xl font-bold mb-1 text-gray-900">{item.value}</div>
+        <p className="text-sm text-gray-600 mb-2">{item.name}</p>
+        <p
+          className={`text-xs ${
+            item.change.includes("+") ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          {item.change}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
 
           {/* Visitor Insights - col-span-1 dari 3 kolom */}
           <div className="col-span-1 bg-white p-6 rounded-2xl shadow-md">
